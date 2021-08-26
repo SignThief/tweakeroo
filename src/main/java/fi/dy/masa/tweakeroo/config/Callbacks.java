@@ -99,6 +99,16 @@ public class Callbacks
 
         Configs.Generic.TOOL_SWITCHABLE_SLOTS.setValueChangeCallback((cfg) -> InventoryUtils.setToolSwitchableSlots(cfg.getStringValue()));
         Configs.Lists.CREATIVE_EXTRA_ITEMS.setValueChangeCallback((cfg) -> CreativeExtraItems.setCreativeExtraItems(cfg.getStrings()));
+        Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.setValueChangeCallback((cfg) -> {
+            if (cfg.getIntegerValue() <= Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MIN.getIntegerValue()) {
+                Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MIN.setIntegerValue(cfg.getIntegerValue() - 1);
+            }
+        });
+        Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MIN.setValueChangeCallback((cfg) -> {
+            if (cfg.getIntegerValue() >= Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getIntegerValue()) {
+                Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.setIntegerValue(cfg.getIntegerValue() + 1);
+            }
+        });
 
         FeatureToggle.TWEAK_AFTER_CLICKER.getKeybind().setCallback(KeyCallbackAdjustableFeature.createCallback(FeatureToggle.TWEAK_AFTER_CLICKER));
         FeatureToggle.TWEAK_BREAKING_GRID.getKeybind().setCallback(KeyCallbackAdjustableFeature.createCallback(FeatureToggle.TWEAK_BREAKING_GRID));
@@ -575,8 +585,9 @@ public class Callbacks
             {
                 if (enabled)
                 {
-                    String strValue = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getStringValue();
-                    InfoUtils.printActionbarMessage("tweakeroo.message.toggled_slot_randomizer_on", strStatus, preGreen + strValue + rst);
+                    String minValue = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MIN.getStringValue();
+                    String maxValue = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getStringValue();
+                    InfoUtils.printActionbarMessage("tweakeroo.message.toggled_slot_randomizer_on", strStatus, preGreen + minValue + rst, preGreen + maxValue + rst );
                 }
                 else
                 {

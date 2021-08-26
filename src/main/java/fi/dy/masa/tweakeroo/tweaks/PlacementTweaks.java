@@ -828,7 +828,10 @@ public class PlacementTweaks
             }
             else if (FeatureToggle.TWEAK_HOTBAR_SLOT_RANDOMIZER.getBooleanValue())
             {
-                int newSlot = player.getRandom().nextInt(Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getIntegerValue());
+                // Adjust min by 1 to include min slot in randomization
+                int min = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MIN.getIntegerValue() - 1;
+                int max = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getIntegerValue();
+                int newSlot = player.getRandom().nextInt(max - min) + min;
                 inv.selectedSlot = newSlot;
             }
         }

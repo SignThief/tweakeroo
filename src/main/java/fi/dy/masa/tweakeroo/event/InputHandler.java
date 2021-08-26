@@ -201,8 +201,9 @@ public class InputHandler implements IKeybindProvider, IKeyboardInputHandler, IM
                 Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.setIntegerValue(newValue);
                 KeyCallbackAdjustable.setValueChanged();
 
-                String strValue = preGreen + Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getIntegerValue() + rst;
-                InfoUtils.printActionbarMessage("tweakeroo.message.set_hotbar_slot_randomizer_max_to", strValue);
+                String minValue = preGreen + Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MIN.getIntegerValue() + rst;
+                String maxValue = preGreen + Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getIntegerValue() + rst;
+                InfoUtils.printActionbarMessage("tweakeroo.message.set_hotbar_slot_randomizer_max_to", maxValue, minValue);
 
                 return true;
             }
