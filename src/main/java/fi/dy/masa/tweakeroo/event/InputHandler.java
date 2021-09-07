@@ -1,6 +1,7 @@
 package fi.dy.masa.tweakeroo.event;
 
 import com.google.common.collect.ImmutableList;
+import fi.dy.masa.malilib.config.options.ConfigInteger;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.option.GameOptions;
@@ -197,8 +198,23 @@ public class InputHandler implements IKeybindProvider, IKeyboardInputHandler, IM
             }
             else if (FeatureToggle.TWEAK_HOTBAR_SLOT_RANDOMIZER.getKeybind().isKeybindHeld())
             {
-                int newValue = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getIntegerValue() + (dWheel > 0 ? 1 : -1);
-                Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.setIntegerValue(newValue);
+                ConfigInteger min = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MIN;
+                ConfigInteger max = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX;
+                if (dWheel > 0) {
+                    if (max.getIntegerValue() < max.getMaxIntegerValue()) {
+                        max.setIntegerValue(max.getIntegerValue() + 1);
+                    } else {
+                        min.setIntegerValue(min.getIntegerValue() + 1);
+                    }
+                } else {
+                    if (min.getIntegerValue() > min.getMinIntegerValue()) {
+                        min.setIntegerValue(min.getIntegerValue() - 1);
+                    } else {
+                        max.setIntegerValue(max.getIntegerValue() - 1);
+                    }
+                }
+//                int newValue = Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.getIntegerValue() + (dWheel > 0 ? 1 : -1);
+//                Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MAX.setIntegerValue(newValue);
                 KeyCallbackAdjustable.setValueChanged();
 
                 String minValue = preGreen + Configs.Generic.HOTBAR_SLOT_RANDOMIZER_MIN.getIntegerValue() + rst;
